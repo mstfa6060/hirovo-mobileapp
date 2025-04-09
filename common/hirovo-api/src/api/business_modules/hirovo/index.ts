@@ -22,11 +22,14 @@ export namespace HirovoAPI {
 
 	export namespace Workers {
 
-		export namespace UpdateProfile {
-			export const RequestPath = AppConfig.HirovoUrl + '/Workers/UpdateProfile';
+		export namespace Detail {
+			export const RequestPath = AppConfig.HirovoUrl + '/Workers/Detail';
 			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
 			export interface IRequestModel {
 				userId: Guid;
+			}
+			export interface IResponseModel {
+				id: Guid;
 				description: string;
 				phoneNumber: string;
 				birthDate?: Date;
@@ -34,17 +37,10 @@ export namespace HirovoAPI {
 				district: string;
 				isAvailable?: boolean;
 			}
-			export interface IResponseModel {
-				id: Guid;
-			}
 		}
 
-	}
-
-	export namespace CreateHello {
-
 		export namespace UpdateProfile {
-			export const RequestPath = AppConfig.HirovoUrl + '/CreateHello/UpdateProfile';
+			export const RequestPath = AppConfig.HirovoUrl + '/Workers/UpdateProfile';
 			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
 			export interface IRequestModel {
 				userId: Guid;
