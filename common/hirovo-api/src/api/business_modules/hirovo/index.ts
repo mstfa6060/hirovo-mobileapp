@@ -18,26 +18,26 @@ export namespace HirovoAPI {
 
 	export namespace Enums {
 
+		export enum JobType {
+			FullTime = 0,
+			PartTime = 1,
+			Freelance = 2,
+		}
+
+		export enum JobStatus {
+			Active = 0,
+			Closed = 1,
+			Filled = 2,
+		}
+
+		export enum XSortingDirection {
+			Ascending = 0,
+			Descending = 1,
+		}
+
 	}
 
 	export namespace Workers {
-
-		export namespace Detail {
-			export const RequestPath = AppConfig.HirovoUrl + '/Workers/Detail';
-			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
-			export interface IRequestModel {
-				userId: Guid;
-			}
-			export interface IResponseModel {
-				id: Guid;
-				description: string;
-				phoneNumber: string;
-				birthDate?: Date;
-				city: string;
-				district: string;
-				isAvailable?: boolean;
-			}
-		}
 
 		export namespace UpdateProfile {
 			export const RequestPath = AppConfig.HirovoUrl + '/Workers/UpdateProfile';
@@ -56,21 +56,104 @@ export namespace HirovoAPI {
 			}
 		}
 
-	}
+		export namespace Pick {
+			export const RequestPath = AppConfig.HirovoUrl + '/Workers/Pick';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel[]>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				selectedIds: Guid[];
+				keyword: string;
+				limit: number;
+			}
+			export interface IResponseModel {
+				id: Guid;
+				fullName: string;
+			}
+		}
 
-	export namespace Jobs {
-
-		export namespace UpdateProfile {
-			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/UpdateProfile';
+		export namespace Detail {
+			export const RequestPath = AppConfig.HirovoUrl + '/Workers/Detail';
 			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
 			export interface IRequestModel {
 				userId: Guid;
+			}
+			export interface IResponseModel {
+				id: Guid;
 				description: string;
 				phoneNumber: string;
 				birthDate?: Date;
 				city: string;
 				district: string;
 				isAvailable?: boolean;
+			}
+		}
+
+	}
+
+	export namespace Jobs {
+
+		export namespace Detail {
+			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Detail';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				jobId: Guid;
+			}
+			export interface IResponseModel {
+				id: Guid;
+				title: string;
+				description: string;
+				salary: __ERROR_TYPE_NOT_HANDLED__;
+				type: Enums.JobType;
+				status: Enums.JobStatus;
+				employerId: Guid;
+			}
+		}
+
+		export namespace All {
+			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/All';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel[]>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				sorting: IXSorting;
+				filters: IXFilterItem[];
+				pageRequest: IXPageRequest;
+			}
+			export interface IXSorting {
+				key: string;
+				direction: Enums.XSortingDirection;
+			}
+			export interface IObject {
+			}
+			export interface IXFilterItem {
+				key: string;
+				type: string;
+				isUsed: boolean;
+				values: IObject[];
+				min: IObject;
+				max: IObject;
+				conditionType: string;
+			}
+			export interface IXPageRequest {
+				currentPage: number;
+				perPageCount: number;
+				listAll: boolean;
+			}
+			export interface IResponseModel {
+				id: Guid;
+				title: string;
+				salary: __ERROR_TYPE_NOT_HANDLED__;
+				type: Enums.JobType;
+				status: Enums.JobStatus;
+			}
+		}
+
+		export namespace Create {
+			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Create';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				title: string;
+				description: string;
+				salary: __ERROR_TYPE_NOT_HANDLED__;
+				type: Enums.JobType;
+				employerId: Guid;
 			}
 			export interface IResponseModel {
 				id: Guid;
