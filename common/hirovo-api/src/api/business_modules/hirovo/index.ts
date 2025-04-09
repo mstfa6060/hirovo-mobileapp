@@ -161,6 +161,19 @@ export namespace HirovoAPI {
 			}
 		}
 
+		export namespace Delete {
+			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Delete';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				jobId: Guid;
+				isDeleted: boolean;
+			}
+			export interface IResponseModel {
+				id: Guid;
+				isDeleted: boolean;
+			}
+		}
+
 		export namespace Create {
 			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Create';
 			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
