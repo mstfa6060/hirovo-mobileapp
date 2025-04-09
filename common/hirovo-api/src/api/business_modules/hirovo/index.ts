@@ -145,6 +145,22 @@ export namespace HirovoAPI {
 			}
 		}
 
+		export namespace Update {
+			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Update';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				jobId: Guid;
+				title: string;
+				description: string;
+				salary: __ERROR_TYPE_NOT_HANDLED__;
+				type: Enums.JobType;
+				status: Enums.JobStatus;
+			}
+			export interface IResponseModel {
+				id: Guid;
+			}
+		}
+
 		export namespace Create {
 			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Create';
 			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
