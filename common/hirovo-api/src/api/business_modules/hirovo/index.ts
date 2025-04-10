@@ -35,6 +35,12 @@ export namespace HirovoAPI {
 			Descending = 1,
 		}
 
+		export enum ApplicationStatus {
+			Pending = 0,
+			Accepted = 1,
+			Rejected = 2,
+		}
+
 	}
 
 	export namespace Workers {
@@ -175,6 +181,21 @@ export namespace HirovoAPI {
 			}
 		}
 
+		export namespace Omer {
+			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Omer';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				title: string;
+				description: string;
+				salary: __ERROR_TYPE_NOT_HANDLED__;
+				type: Enums.JobType;
+				employerId: Guid;
+			}
+			export interface IResponseModel {
+				id: Guid;
+			}
+		}
+
 		export namespace Delete {
 			export const RequestPath = AppConfig.HirovoUrl + '/Jobs/Delete';
 			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
@@ -200,6 +221,59 @@ export namespace HirovoAPI {
 			}
 			export interface IResponseModel {
 				id: Guid;
+			}
+		}
+
+	}
+
+	export namespace JobApplications {
+
+		export namespace All {
+			export const RequestPath = AppConfig.HirovoUrl + '/JobApplications/All';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel[]>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				sorting: IXSorting;
+				filters: IXFilterItem[];
+				pageRequest: IXPageRequest;
+			}
+			export interface IXSorting {
+				key: string;
+				direction: Enums.XSortingDirection;
+			}
+			export interface IObject {
+			}
+			export interface IXFilterItem {
+				key: string;
+				type: string;
+				isUsed: boolean;
+				values: IObject[];
+				min: IObject;
+				max: IObject;
+				conditionType: string;
+			}
+			export interface IXPageRequest {
+				currentPage: number;
+				perPageCount: number;
+				listAll: boolean;
+			}
+			export interface IResponseModel {
+				id: Guid;
+				jobId: Guid;
+				workerId: Guid;
+				status: Enums.ApplicationStatus;
+				appliedAt: Date;
+			}
+		}
+
+		export namespace Create {
+			export const RequestPath = AppConfig.HirovoUrl + '/JobApplications/Create';
+			export const Request = (data: IRequestModel) => ApiService.call<IResponseModel>(axios.post(RequestPath,{...data}));
+			export interface IRequestModel {
+				jobId: Guid;
+				workerId: Guid;
+			}
+			export interface IResponseModel {
+				jobApplicationId: Guid;
 			}
 		}
 
